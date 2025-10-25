@@ -1,0 +1,371 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  background-color: #fff8e1;  
+  color: #333;  
+}
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #fff8e1 0%, #f5f5dc 100%);  
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.05); 
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 280px;   
+  background: linear-gradient(180deg, #2e2e2e 0%, #1a1a1a 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.2);  
+  z-index: 1000;
+}
+
+.sidebar .logo {
+  width: 160px;
+  margin-bottom: 25px;
+  border-radius: 50%;
+  border: 3px solid #d49f1c;  
+  transition: transform 0.3s ease;
+}
+
+.sidebar .logo:hover {
+  transform: scale(1.05);
+}
+
+.account-name {
+  margin: 15px 0;
+  font-weight: bold;
+  color: #ffd54f;   
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  text-decoration: none;
+  padding: 15px 20px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);  
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+  background: linear-gradient(135deg, #d49f1c 0%, #ffcc33 100%);
+  color: #2e2e2e;
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(212, 159, 28, 0.3);
+}
+
+.sidebar-nav img {
+  width: 24px;
+  height: 24px;
+}
+
+.logout-btn {
+  width: 90%;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #d49f1c 0%, #ffcc33 100%);
+  color: #2e2e2e;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:hover {
+  background: linear-gradient(135deg, #ffcc33 0%, #ffb300 100%);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 280px; 
+  flex: 1;
+  padding: 40px;
+  background-color: transparent;
+  min-height: 100vh;
+  position: relative;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin-bottom: 30px;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.page-title::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #d49f1c, #ffcc33);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* Council Section */
+.council-section {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-bottom: 50px;
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* Glass effect */
+}
+
+.council-left,
+.council-right {
+  flex: 1;
+}
+
+.position {
+  margin-bottom: 30px;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.position:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.position h3 {
+  font-size: 1.4rem;
+  color: #2e2e2e;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #d49f1c;
+  padding-bottom: 5px;
+}
+
+.position p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.candidate-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #333;
+  padding: 25px;
+  text-align: center;
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 2px dashed #dee2e6;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.candidate-card:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  border-color: #d49f1c;
+  transform: scale(1.02);
+}
+
+.council-right h3 {
+  font-size: 1.6rem;
+  color: #2e2e2e;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.vote-cards {
+  display: flex;
+  gap: 25px;
+  margin: 25px 0;
+  align-items: stretch;
+}
+
+.vote-card {
+  flex: 1;
+  background: white;
+  color: #333;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.vote-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.vote-card p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #2e2e2e;
+}
+
+.vote-count {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #d49f1c;
+  background: rgba(212, 159, 28, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.Voting-button {
+  display: block;
+  margin: 30px auto 0;
+  padding: 15px 40px;
+  background: linear-gradient(135deg, #d49f1c 0%, #ffcc33 100%);
+  color: #2e2e2e;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(212, 159, 28, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.Voting-button:hover {
+  background: linear-gradient(135deg, #ffcc33 0%, #ffb300 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 159, 28, 0.4);
+}
+
+/* Grade Section */
+.grade-section-title {
+  margin-bottom: 25px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e2e2e;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.grades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.grade-card {
+  background: linear-gradient(135deg, #f4c542 0%, #ffcc33 100%);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  font-weight: bold;
+  color: #2e2e2e;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.grade-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, #ffcc33 0%, #ffb300 100%);
+}
+
+.grade-card .candidate-card {
+  margin-top: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 250px;
+  }
+  .main-content {
+    margin-left: 250px;
+  }
+  .council-section {
+    flex-direction: column;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 20px;
+    box-shadow: none;
+  }
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+  .dashboard-container {
+    flex-direction: column;
+  }
+  .grades-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+  }
+  .vote-cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .page-title {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club Dashboard</title>
+  <link rel="stylesheet" href="../CSS/ACESS_Club.css">
+  <link rel="stylesheet" href="../CSS/ACESS_StudentCouncil_And_User.css">
+  <link rel="stylesheet" href="../CSS/ACESS_Universal_Sidebar.css" />
+  <script src="../JS/config.js"></script>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="ACESS_Admin_Dashboard.html">
+        <img src="../Images/School_Logo.jpg" alt="Logo" class="logo">
+      </a>
+      <p class="account-name" id="account-name">Loading...</p>
+      <nav class="sidebar-nav">
+        <a href="ACESS_Admin_Club.html">
+          👥 Club
+        </a>
+        <a href="ACESS_Student_Council.html">
+          🏛️ Student Council
+        </a>
+        <a href="ACESS_Messages.html">
+          💬 Messages
+        </a>
+        <a href="ACESS_AccountManagement.html">
+          👤 Account Management
+        </a>
+      </nav>
+      <button class="logout-btn" id="logoutButton">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="club-and-events-container">
+        <!-- Club Section -->
+        <section class="club-section">
+          <div class="club-header">
+            <h2>Club List</h2>
+            <button class="create-club-btn" id="createClubBtn">+ Create Club</button>
+          </div>
+          <div class="club-panel">
+            <h3>AVAILABLE CLUBS</h3>
+            <ul id="club-lists"></ul>
+          </div>
+        </section>
+
+        <!-- Events Section -->
+        <section class="events-section">
+          <h2>📅 Events</h2>
+          <div id="event-box">
+            <p>Error loading events.</p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Club Details Side Panel -->
+  <aside class="form-container" aria-hidden="true">
+    <button class="close-form" aria-label="Close form">&times;</button>
+    <h3 id="form-title">Club Details</h3>
+    <div id="club-details-content">
+      <h4>Description:</h4>
+      <p id="club-description">Loading...</p>
+
+      <h4>Advisor:</h4>
+      <p id="club-advisor">Loading...</p>
+
+      <h4>Club President:</h4>
+      <p id="club-president">Not assigned</p>
+
+      <h4>Club Vice President:</h4>
+      <p id="club-vp">Not assigned</p>
+
+      <h4>Members:</h4>
+      <div id="club-members-list">Loading...</div>
+    </div>
+  </aside>
+
+  <!-- Create Club Modal -->
+  <div class="modal" id="createClubModal" style="display: none;">
+    <div class="modal-content">
+      <h3>Create New Club</h3>
+      <form id="createClubForm">
+        <label>
+          Club Name:
+          <input type="text" id="clubNameInput" placeholder="Enter Club Name" required>
+        </label>
+        <label>
+          Club Adviser:
+          <select id="club-adviser-select" required>
+            <option value="">Select Club Adviser</option>
+          </select>
+        </label>
+        <label>
+          Group Chat Link:
+          <input type="text" id="groupChatInput" placeholder="Enter Group Chat Name/Link">
+        </label>
+        <div class="modal-buttons">
+          <button type="submit" class="confirm">Create</button>
+          <button type="button" class="cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+<script src="../JS/session_manager.js"></script>
+  <script src="../Admin/JS/events_fetch.js"></script>
+  <script src="../Admin/JS/adviser_select_club.js"></script>
+  <script src="../JS/main.js"></script>
+  <script src="../JS/sidebar.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const nameElement = document.querySelector(".account-name");
+      const clubList = document.getElementById("club-lists");
+      const formContainer = document.querySelector(".form-container");
+      const formTitle = document.getElementById("form-title");
+      const closeFormBtn = document.querySelector(".close-form");
+      const mainContent = document.querySelector("main.main-content");
+      const modal = document.getElementById("createClubModal");
+      const createBtn = document.getElementById("createClubBtn");
+      const cancelBtn = modal.querySelector(".cancel");
+      const createForm = document.getElementById("createClubForm");
+
+      // Fetch user name
+      try {
+        const res = await fetch("Php/get_logged_user.php");
+        const data = await res.json();
+        nameElement.textContent = data.fullname || "Not Logged In";
+      } catch (err) {
+        console.error("Fetch failed:", err);
+        nameElement.textContent = "Error";
+      }
+
+      // Load clubs
+      async function loadClubs() {
+        try {
+          const res = await fetch('../Admin/Php/get_clubs.php');
+          const data = await res.json();
+
+          clubList.innerHTML = '';
+
+          if (data.success && data.clubs.length > 0) {
+            data.clubs.forEach(club => {
+              const li = document.createElement('li');
+              li.style.cursor = 'pointer';
+              li.innerHTML = `<span>${club.club_name}</span>`;
+
+              li.addEventListener('click', () => {
+                showClubDetails(club);
+              });
+
+              clubList.appendChild(li);
+            });
+          } else {
+            clubList.innerHTML = '<p style="color:#999;">No clubs found.</p>';
+          }
+        } catch (err) {
+          console.error('Error loading clubs:', err);
+          clubList.innerHTML = '<p style="color:red;">Error loading clubs.</p>';
+        }
+      }
+
+      // Show club details
+      function showClubDetails(club) {
+        formTitle.textContent = club.club_name;
+        document.getElementById('club-description').textContent = club.description || 'No description available';
+        document.getElementById('club-advisor').textContent = club.adviser || 'No adviser assigned';
+        document.getElementById('club-president').textContent = 'Not assigned';
+        document.getElementById('club-vp').textContent = 'Not assigned';
+        document.getElementById('club-members-list').innerHTML = '<p>Loading members...</p>';
+
+        formContainer.classList.add('active');
+        mainContent.classList.add('form-active');
+        formContainer.setAttribute('aria-hidden', 'false');
+      }
+
+      // Close details panel
+      closeFormBtn.addEventListener('click', () => {
+        formContainer.classList.remove('active');
+        mainContent.classList.remove('form-active');
+        formContainer.setAttribute('aria-hidden', 'true');
+      });
+
+      // Open create club modal
+      createBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+      });
+
+      // Close modal
+      cancelBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        createForm.reset();
+      });
+
+      // Close modal on outside click
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          createForm.reset();
+        }
+      });
+
+      // Create club
+      createForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const clubName = document.getElementById('clubNameInput').value.trim();
+        const adviser = document.getElementById('club-adviser-select').value;
+        const groupChat = document.getElementById('groupChatInput').value.trim();
+
+        if (!clubName || !adviser) {
+          alert('Please fill in all required fields');
+          return;
+        }
+
+        try {
+          const response = await fetch('../Admin/Php/create_club.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              club_name: clubName,
+              adviser: adviser,
+              group_chat: groupChat
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            alert('Club created successfully!');
+            modal.style.display = 'none';
+            createForm.reset();
+            loadClubs();
+          } else {
+            alert('Error: ' + result.message);
+          }
+        } catch (err) {
+          console.error('Error creating club:', err);
+          alert('Failed to create club. Check console for details.');
+        }
+      });
+
+      // Initial load
+      loadClubs();
+    });
+  </script>
+</body>
+
+</html>

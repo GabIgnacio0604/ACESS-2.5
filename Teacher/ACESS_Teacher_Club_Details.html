@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Club Details</title>
+  <link rel="stylesheet" href="../CSS/ACESS_Club.css">
+  <link rel="stylesheet" href="../CSS/ACESS_Universal_Sidebar.css" />
+  <link rel="stylesheet" href="../CSS/teacher_club_details.css">
+  <link rel="stylesheet" href="../CSS/ACESS_teacher_club_enhanced.css">
+  <script src="../JS/config.js"></script>
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <a href="ACESS_Dashboard.html">
+        <img src="../Images/School_Logo.jpg" alt="Logo" class="logo" />
+      </a>
+      <p class="account-name" id="account-name">Loading...</p>
+      <nav class="sidebar-nav">
+        <a href="ACESS_Club.html">
+          👥 Club
+        </a>
+        <a href="ACESS_Messages.html">
+          💬 Messages
+        </a>
+      </nav>
+      <button class="logout-btn" id="logoutButton">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="club-header">
+        <h1 id="club-name">Loading club...</h1>
+      </div>
+      <div class="members-section">
+        <h3>Description:</h3>
+        <p id="club-description">Loading description...</p>
+      </div>
+      <div class="members-section">
+        <h2>Club Members</h2>
+        <div id="members-list"></div>
+      </div>
+    </main>
+  </div>
+  <script src="../JS/session_manager.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const clubId = urlParams.get('id');
+
+    if (!clubId) {
+      alert('No club ID provided');
+      window.location.href = 'ACESS_Club.html';
+    }
+
+    async function updateMembership(memberId, action) {
+      try {
+        const response = await fetch('../Admin/Php/update_club_membership.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            member_id: memberId,
+            action: action
+          })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          loadClubDetails(); 
+        } else {
+          alert('Failed to update membership: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to update membership');
+      }
+    }
+
+    async function loadClubDetails() {
+      try {
+       window.location.href = `ACESS_Teacher_Club_Details.html?id=${club.id}`;
+        const data = await response.json();
+
+        if (data.success) {
+          // Update club name
+          document.getElementById('club-name').textContent = data.club.name;
+
+          // Update members list
+          const membersList = document.getElementById('members-list');
+          membersList.innerHTML = '';
+
+          data.members.forEach(member => {
+            const memberCard = document.createElement('div');
+            memberCard.className = 'member-card';
+
+            const roleClass = member.club_role.toLowerCase().replace(' ', '-');
+
+            // Create action buttons based on approval status
+            const actionButtons = member.approved_at === null ?
+              `<div class="member-actions">
+                <button class="action-btn accept-btn" onclick="updateMembership(${member.id}, 'accept')">Accept</button>
+                <button class="action-btn reject-btn" onclick="updateMembership(${member.id}, 'reject')">Reject</button>
+               </div>` :
+              `<div class="member-actions">
+                <button class="action-btn remove-btn" onclick="updateMembership(${member.id}, 'remove')">Remove</button>
+               </div>`;
+
+            memberCard.innerHTML = `
+              <div class="member-info">
+                <div>
+                  <span class="member-name">${member.fullname}</span>
+                  <span class="member-role ${roleClass}">${member.club_role}</span>
+                </div>
+                <div class="member-email">${member.email}</div>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div class="member-status ${member.approved_at ? 'status-approved' : 'status-pending'}">
+                  ${member.approved_at ? 'Approved' : 'Pending'}
+                </div>
+                ${actionButtons}
+              </div>
+            `;
+            membersList.appendChild(memberCard);
+          });
+        } else {
+          alert('Failed to load club details: ' + data.message);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to load club details');
+      }
+    }
+
+    // Load user name
+    document.addEventListener("DOMContentLoaded", async () => {
+      const nameElement = document.querySelector(".account-name");
+
+      try {
+        const res = await fetch("../Admin/Php/get_logged_user.php");
+        const data = await res.json();
+
+        if (data.fullname) {
+          nameElement.textContent = data.fullname;
+        } else {
+          nameElement.textContent = "Not Logged In";
+          console.error("Error fetching name:", data.error);
+        }
+      } catch (err) {
+        console.error("Fetch failed:", err);
+        nameElement.textContent = "Error";
+      }
+
+      // Load club details
+      loadClubDetails();
+    });
+  </script>
+</body>
+
+</html>

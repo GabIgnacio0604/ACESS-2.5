@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACESS - Sta. Cruz HighSchool</title>
+  <link rel="stylesheet" href="CSS/ACESS.css" />
+  <!-- Google reCAPTCHA v2 -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="../JS/config.js"></script>
+</head>
+
+<body>
+  <!-- Login Section -->
+  <div id="Login">
+    <div id="loginBox">
+      <img src="Images/School_Logo.jpg" alt="School Logo" id="logo" />
+      <h1 id="heading">STUDENT PORTAL</h1>
+      <p id="subheading">STA. CRUZ HIGHSCHOOL</p>
+      <input type="email" placeholder="Email" id="email" />
+      <div id="passwordLogin">
+        <input type="password" id="passwordField" placeholder="Password" />
+        <button id="toggleBtn" type="button">Show</button>
+      </div>
+      <!-- reCAPTCHA v2 checkbox -->
+      <div class="g-recaptcha" data-sitekey="6Lf9XbsrAAAAANo4X2Ip6WBnr68jfbAKyZLNZEaj"></div>
+      <button id="loginButton">Log In</button>
+      <br><br>
+      <p><a href="#" id="forgotPassword">Forgot your password?</a></p>
+      
+      <p>Don't have an account? <a href="#" id="createAccountBox">Create an Account</a></p>
+    </div>
+  </div>
+
+  <!-- Create Account Section -->
+  <div id="createAccountForm" style="display: none;">
+    <h1>CREATE YOUR ACCOUNT</h1>
+    <input type="email" placeholder="Email" id="signupEmail" />
+    <input type="text" placeholder="Full Name" id="signupName" />
+    <div>
+      <input type="password" placeholder="Password" id="Password2" />
+      <button type="button" id="toggleBtn2">Show</button>
+    </div>
+    <input type="text" placeholder="School ID or LRN" id="signupLRN" />
+
+    <!-- Privacy Agreement Section -->
+    <div style="margin-top: 10px; text-align: center;">
+      <label>
+        <input type="checkbox" id="privacyCheckbox" />
+        I agree to the
+        <a href="privacy.html" target="_blank">Privacy Policy</a>.
+      </label>
+    </div>
+    <button id="createAccountButton">Create Account</button>
+    <button id="returnToLogin">Return to Login</button>
+  </div>
+
+  <!-- Forgot Password Section -->
+  <div id="ForgotPassword" style="display: none;">
+    <h1>Trouble Logging in?</h1>
+    <p>Enter your email and we'll send you a code to reset your password.</p>
+    <input type="email" placeholder="Email" />
+    <button>Next</button>
+    <button id="returnToLoginFromForgot">Return to Login</button>
+  </div>
+
+  <!-- Validation Screen -->
+  <div id="validationScreen" style="display: none;">
+    <div class="card">
+      <img src="Images/School_Logo.jpg" alt="School Logo" />
+      <h1>Wait For The Admin<br />To Confirm The Validation Of Your Account.</h1>
+      <p>You will receive an email when the Admin has confirmed the validity of the account.</p>
+      <a href="index.html" onclick="goBackToLogin()" class="back-button">Return To Login Page</a>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="JS/main.js"></script>
+</body>
+
+</html>

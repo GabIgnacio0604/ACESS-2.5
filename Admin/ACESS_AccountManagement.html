@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Management</title>
+  <link rel="stylesheet" href="../CSS/ACESS_AccountManagement.css">
+  <link rel="stylesheet" href="../CSS/ACESS_StudentCouncil_And_User.css">
+  <link rel="stylesheet" href="../CSS/ACESS_Universal_Sidebar.css" />
+  <script src="../JS/config.js"></script>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="ACESS_Admin_Dashboard.html">
+        <img src="../Images/School_Logo.jpg" alt="Logo" class="logo">
+      </a>
+      <p class="account-name" id="account-name">Loading...</p>
+      <nav class="sidebar-nav">
+        <a href="ACESS_Admin_Club.html">
+          👥 Club
+        </a>
+        <a href="ACESS_Student_Council.html">
+          🏛️ Student Council
+        </a>
+        <a href="ACESS_Messages.html">
+          💬 Messages
+        </a>
+        <a href="ACESS_AccountManagement.html">
+          👤 Account Management
+        </a>
+      </nav>
+      <button class="logout-btn" id="logoutButton">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="account-management-container">
+
+        <!-- Left Column -->
+        <div class="account-lists">
+          <section class="list-panel">
+            <h3>Sign-Up Application</h3>
+            <div class="scrollable-list" id="signup-list"></div>
+          </section>
+
+          <section class="list-panel">
+            <h3>Account List</h3>
+            <div class="scrollable-list" id="account-list"></div>
+          </section>
+        </div>
+
+        <!-- Right Column -->
+        <section class="applicant-info">
+          <h3>Applicant Information</h3>
+          <form id="applicant-form">
+            <label>Full Name:
+              <input type="text" id="full-name">
+            </label>
+            <label>Email:
+              <input type="email" id="email">
+            </label>
+            <label>Password:
+              <input type="password" id="password">
+            </label>
+            <label>School ID or LRN:
+              <input type="text" id="school-id">
+            </label>
+            <label>Role:
+              <select id="role">
+                <option value="user">User</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">Admin</option>
+                <option value="studentcouncil">Student Council</option>
+                <option value="superadmin">Super Admin</option>
+              </select>
+            </label>
+
+            <div class="form-buttons">
+              <button type="button" class="accept" id="accept-btn">Accept</button>
+              <button type="button" class="reject" id="reject-btn">Reject</button>
+              <button type="button" class="save" id="save-btn">Save</button>
+              <button type="button" class="delete" id="delete-btn">Delete</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <script src="../JS/session_manager.js"></script>
+  <script src="../JS/main.js"></script>
+  <script src="./JS/account_management.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const nameElement = document.querySelector(".account-name");
+
+      try {
+        const res = await fetch("Php/get_logged_user.php");
+        const data = await res.json();
+
+        if (data.fullname) {
+          nameElement.textContent = data.fullname;
+        } else {
+          nameElement.textContent = "Not Logged In";
+          console.error("Error fetching name:", data.error);
+        }
+      } catch (err) {
+        console.error("Fetch failed:", err);
+        nameElement.textContent = "Error";
+      }
+    });
+  </script>
+
+</body>
+
+</html>

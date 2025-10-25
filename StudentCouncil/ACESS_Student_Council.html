@@ -1,0 +1,68 @@
+<<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Council Dashboard</title>
+  <link rel="stylesheet" href="../CSS/ACESS_StudentCouncil.css" />
+  <link rel="stylesheet" href="../CSS/ACESS_StudentCouncil_And_User.css">
+  <script src="../JS/config.js"></script>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <a href="ACESS_Dashboard.html">
+        <img src="../Images/School_Logo.jpg" alt="Logo" class="logo" />
+      </a>
+      <p class="account-name" id="account-name">Loading...</p>
+      <nav class="sidebar-nav">
+        <a href="ACESS_Club.html">
+          👥 Club
+        </a>
+        <a href="ACESS_Student_Council.html">
+          🏛️ Student Council
+        </a>
+        <a href="ACESS_Messages.html">
+        💬 Messages
+      </a>
+      </nav>
+      <button class="logout-btn" id="logoutButton">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h2 class="page-title">Student Council</h2>
+
+      <div class="council-section">
+        <!-- Executive Positions -->
+        <div class="council-left" id="executive-positions">
+          <p style="text-align:center;color:#999;">Loading executive positions...</p>
+        </div>
+
+        <!-- Vote Count Section -->
+        <div class="council-right">
+          <h3>Current Vote Leaders</h3>
+          <div class="vote-cards" id="vote-leaders">
+            <p style="text-align:center;color:#999;">Loading vote counts...</p>
+          </div>
+          <button class="Voting-button" onclick="location.href='Voting.html'">Vote Now</button>
+        </div>
+      </div>
+
+      <h3 class="grade-section-title">Grade Level Representatives</h3>
+      <div class="grades-grid" id="grade-representatives">
+        <p style="text-align:center;color:#999;">Loading grade representatives...</p>
+      </div>
+    </main>
+  </div>
+  
+    <script src="../JS/session_manager.js"></script>
+  <script src="../JS/banner.js"></script>
+  <script src="../JS/main.js"></script>
+  <script src="../JS/sidebar.js"></script>
+  <script src="JS/student_council.js"></script> 
+</body>
+</html>
